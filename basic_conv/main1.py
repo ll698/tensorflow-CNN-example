@@ -25,9 +25,9 @@ def cifar_10_reshape(batch_arg):
     return output
 
 def unpickle(file):
-    import cPickle
+    import pickle
     fo=open(file,'rb')
-    dict=cPickle.load(fo)
+    dict=pickle.load(fo, encoding= "bytes")
     fo.close()
     return dict
 
@@ -42,22 +42,22 @@ batch4=unpickle('cifar10/data_batch_4')
 batch5=unpickle('cifar10/data_batch_5')
 
 
+print(batch1.keys)
+batch1_data=cifar_10_reshape(batch1[b'data'])
+batch2_data=cifar_10_reshape(batch2[b'data'])
+batch3_data=cifar_10_reshape(batch3[b'data'])
+batch4_data=cifar_10_reshape(batch4[b'data'])
+batch5_data=cifar_10_reshape(batch5[b'data'])
 
-batch1_data=cifar_10_reshape(batch1['data'])
-batch2_data=cifar_10_reshape(batch2['data'])
-batch3_data=cifar_10_reshape(batch3['data'])
-batch4_data=cifar_10_reshape(batch4['data'])
-batch5_data=cifar_10_reshape(batch5['data'])
-
-batch1_labels=batch1['labels']
-batch2_labels=batch2['labels']
-batch3_labels=batch3['labels']
-batch4_labels=batch4['labels']
-batch5_labels=batch5['labels']
+batch1_labels=batch1[b'labels']
+batch2_labels=batch2[b'labels']
+batch3_labels=batch3[b'labels']
+batch4_labels=batch4[b'labels']
+batch5_labels=batch5[b'labels']
 
 test_batch=unpickle('cifar10/test_batch')
-testX = cifar_10_reshape(test_batch['data'])
-test_labels_data=test_batch['labels']
+testX = cifar_10_reshape(test_batch[b'data'])
+test_labels_data=test_batch[b'labels']
 
 
 trainX = np.concatenate((batch1_data,batch2_data,batch3_data,batch4_data,batch5_data),axis=0)
@@ -218,6 +218,7 @@ correct_prediction = tf.equal(tf.argmax(y_conv,1), tf.argmax(y,1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 sess.run(tf.global_variables_initializer())
+
 
 """This is the training component of the neural network"""
 print('Training neural network...')
