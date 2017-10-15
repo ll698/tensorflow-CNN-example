@@ -19,47 +19,6 @@ def unpickle(file):
         dict = pickle.load(fo, encoding='bytes')
     return dict
 
-# def return_matrix_form(data_list):
-#     x = []
-#     y = []
-#     for d in data_list:
-#         data = d[b'data'] / 255
-#         labels = d[b'labels']
-#         targets = np.array(labels).reshape(-1)
-#         labels = np.eye(10)[targets]
-#         if x == [] and y == []:
-#             x = data
-#             y = labels
-#
-#         else:
-#             x = np.concatenate((x,data),axis = 0)
-#             y = np.concatenate((y,labels), axis = 0)
-#
-#     return x, y
-#
-#
-#
-# # Load your dataset as a numpy matrix, each row represents an image
-#
-# #Unpickling our training data
-# data_dict0 = unpickle("cifar10/data_batch_1")
-# data_dict1 = unpickle("cifar10/data_batch_2")
-# data_dict2 = unpickle("cifar10/data_batch_3")
-# data_dict3 = unpickle("cifar10/data_batch_4")
-# data_dict4 = unpickle("cifar10/data_batch_5")
-#
-# #unpickeling out testing data
-# data_dict_test = unpickle("cifar10/test_batch")
-#
-# training = [data_dict0,data_dict1,data_dict2,data_dict3,data_dict4]
-# testing = [data_dict_test]
-#
-# trainX, trainY = return_matrix_form(training)
-# testX, testY = return_matrix_form(testing)
-
-
-
-
 
 def cifar_10_reshape(batch_arg):
     output=np.reshape((batch_arg /255),(10000,3,32,32)).transpose(0,2,3,1)
@@ -258,9 +217,7 @@ correct_prediction = tf.equal(tf.argmax(y_conv,1), tf.argmax(y,1))
 
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
-with tf.device("/gpu:0"):
-	sess.run(tf.global_variables_initializer())
-
+sess.run(tf.global_variables_initializer())
 
 """This is the training component of the neural network"""
 print('Training neural network...')
